@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">QR Scanner</string>
+    <string name="scan">Scan</string>
+    <string name="mssg">The bestest QR Code Scanner developed by RANDY</string>
+</resources>
