@@ -37,7 +37,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun isUrl(url: String): Boolean {
-        val regex = "\\b(https?|ftp|file|www)://[-a-zA-Z0-9+&@#/%?=~_|!:,.;]*[-a-zA-Z0-9+&@#/%=~_|]".toRegex()
+        val regex = "\\b(https?|ftp|file)://[-a-zA-Z0-9+&@#/%?=~_|!:,.;]*[-a-zA-Z0-9+&@#/%=~_|]".toRegex()
         return regex.matches(url)
     }
 
