@@ -9,6 +9,7 @@ import android.content.Intent
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatDelegate
@@ -21,7 +22,9 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+
+        scanQrCode()
 
         buttonScan = findViewById(R.id.btn_scan)
         buttonScan.setOnClickListener { scanQrCode() }
@@ -30,11 +33,12 @@ class MainActivity : AppCompatActivity() {
     private fun scanQrCode() {
         val scanner = IntentIntegrator(this)
         scanner.setOrientationLocked(false)
-        scanner.initiateScan()
+            .initiateScan()
     }
 
     private fun isUrl(url: String): Boolean {
-        return android.util.Patterns.WEB_URL.matcher(url).matches()
+        val regex = "\\b(https?|ftp|file|www)://[-a-zA-Z0-9+&@#/%?=~_|!:,.;]*[-a-zA-Z0-9+&@#/%=~_|]".toRegex()
+        return regex.matches(url)
     }
 
     private fun showQrMssg(context: Context, contents: String) {
@@ -67,9 +71,9 @@ class MainActivity : AppCompatActivity() {
 
         if (resultCode == Activity.RESULT_OK) {
             result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data)
-            contents = result?.contents
+            contents = result?.contents.toString()
 
-            if(contents != null) {
+            if(contents.trim().isNotEmpty()) {
                 if (isUrl(contents)) { openUrl(contents) }
                 else { showQrMssg(context, contents) }
             }
